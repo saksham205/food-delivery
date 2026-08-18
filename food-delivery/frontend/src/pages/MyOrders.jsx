@@ -10,6 +10,10 @@ import {
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function MyOrders() {
   const navigate = useNavigate();
 
@@ -35,7 +39,7 @@ function MyOrders() {
         }
 
         const response = await axios.get(
-          "https://food-delivery-cnsn.onrender.com/api/orders/my-orders",
+          `${API_URL}/api/orders/my-orders`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -78,8 +82,6 @@ function MyOrders() {
 
   return (
     <div className="orders-page">
-      {/* HEADER */}
-
       <div className="orders-header">
         <div>
           <p>YOUR ORDERS 📦</p>
@@ -128,8 +130,6 @@ function MyOrders() {
                 className="order-card"
                 key={order._id}
               >
-                {/* ORDER HEADER */}
-
                 <div className="order-header">
                   <div>
                     <div className="order-title-row">
@@ -159,8 +159,6 @@ function MyOrders() {
                   </span>
                 </div>
 
-                {/* PROGRESS */}
-
                 <div className="order-progress">
                   {statusOrder.map(
                     (status, index) => {
@@ -186,8 +184,6 @@ function MyOrders() {
                     }
                   )}
                 </div>
-
-                {/* ITEMS */}
 
                 <div className="order-items">
                   <div className="order-items-title">
@@ -217,8 +213,6 @@ function MyOrders() {
                     )
                   )}
                 </div>
-
-                {/* DELIVERY DETAILS */}
 
                 <div className="customer-order-details">
                   <div className="detail-box">
@@ -274,8 +268,6 @@ function MyOrders() {
                     </div>
                   </div>
                 </div>
-
-                {/* TOTAL */}
 
                 <div className="order-total-section">
                   <div>

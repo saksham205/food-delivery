@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function Login() {
   const navigate = useNavigate();
 
@@ -13,10 +17,10 @@ function Login() {
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
-    setForm({
-      ...form,
+    setForm((prev) => ({
+      ...prev,
       [e.target.name]: e.target.value,
-    });
+    }));
   };
 
   const handleLogin = async (e) => {
@@ -26,7 +30,7 @@ function Login() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://food-delivery-cnsn.onrender.com/api/auth/login",
+        `${API_URL}/api/auth/login`,
         {
           email: form.email.trim(),
           password: form.password,
@@ -45,11 +49,9 @@ function Login() {
 
       alert("Login successful! 🎉");
 
-      // Admin → Admin Dashboard
       if (response.data.user?.role === "admin") {
         navigate("/admin-dashboard");
       } else {
-        // Normal User → Home
         navigate("/");
       }
     } catch (error) {
@@ -57,7 +59,7 @@ function Login() {
 
       alert(
         error.response?.data?.message ||
-          "Login failed. Please check your email and password."
+          "Invalid email or password"
       );
     } finally {
       setLoading(false);
@@ -76,9 +78,10 @@ function Login() {
         </p>
 
         <form onSubmit={handleLogin}>
-          <label>Email</label>
+          <label htmlFor="email">Email</label>
 
           <input
+            id="email"
             type="email"
             name="email"
             placeholder="Enter your email"
@@ -87,9 +90,10 @@ function Login() {
             required
           />
 
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
 
           <input
+            id="password"
             type="password"
             name="password"
             placeholder="Enter your password"

@@ -2,6 +2,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function AdminOrders() {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -15,8 +19,13 @@ function AdminOrders() {
       try {
         const token = localStorage.getItem("token");
 
+        if (!token) {
+          alert("Please login first.");
+          return;
+        }
+
         const response = await axios.get(
-          "https://food-delivery-cnsn.onrender.com/api/orders/admin/all",
+          `${API_URL}/api/orders/admin/all`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -26,7 +35,10 @@ function AdminOrders() {
 
         setOrders(response.data);
       } catch (error) {
-        console.error("Fetch orders error:", error);
+        console.error(
+          "Fetch orders error:",
+          error
+        );
 
         alert(
           error.response?.data?.message ||
@@ -41,12 +53,15 @@ function AdminOrders() {
   }, []);
 
   // Update order status
-  const updateStatus = async (orderId, newStatus) => {
+  const updateStatus = async (
+    orderId,
+    newStatus
+  ) => {
     try {
       const token = localStorage.getItem("token");
 
       const response = await axios.put(
-        `https://food-delivery-cnsn.onrender.com/api/orders/${orderId}/status`,
+        `${API_URL}/api/orders/${orderId}/status`,
         {
           status: newStatus,
         },
@@ -67,7 +82,10 @@ function AdminOrders() {
 
       alert("Order status updated ✅");
     } catch (error) {
-      console.error("Update status error:", error);
+      console.error(
+        "Update status error:",
+        error
+      );
 
       alert(
         error.response?.data?.message ||
@@ -77,24 +95,32 @@ function AdminOrders() {
   };
 
   // Search + Status Filter
-  const filteredOrders = orders.filter((order) => {
-    const search = searchTerm.toLowerCase().trim();
+  const filteredOrders = orders.filter(
+    (order) => {
+      const search =
+        searchTerm.toLowerCase().trim();
 
-    const matchesSearch =
-      order._id.toLowerCase().includes(search) ||
-      (order.customer?.name || "")
-        .toLowerCase()
-        .includes(search) ||
-      (order.customer?.phone || "")
-        .toLowerCase()
-        .includes(search);
+      const matchesSearch =
+        order._id
+          .toLowerCase()
+          .includes(search) ||
+        (order.customer?.name || "")
+          .toLowerCase()
+          .includes(search) ||
+        (order.customer?.phone || "")
+          .toLowerCase()
+          .includes(search);
 
-    const matchesStatus =
-      statusFilter === "All" ||
-      order.status === statusFilter;
+      const matchesStatus =
+        statusFilter === "All" ||
+        order.status === statusFilter;
 
-    return matchesSearch && matchesStatus;
-  });
+      return (
+        matchesSearch &&
+        matchesStatus
+      );
+    }
+  );
 
   // Loading
   if (loading) {
@@ -174,7 +200,8 @@ function AdminOrders() {
             <h2>No orders found</h2>
 
             <p className="empty-text">
-              Try changing your search or status filter.
+              Try changing your search or status
+              filter.
             </p>
           </div>
         ) : (
@@ -189,7 +216,8 @@ function AdminOrders() {
                 <div className="order-header">
                   <div>
                     <h3>
-                      Order #{order._id.slice(-6)}
+                      Order #
+                      {order._id.slice(-6)}
                     </h3>
 
                     <p>
@@ -280,7 +308,8 @@ function AdminOrders() {
                     <span>Payment</span>
 
                     <strong>
-                      {order.paymentMethod || "COD"}
+                      {order.paymentMethod ||
+                        "COD"}
                     </strong>
                   </div>
 

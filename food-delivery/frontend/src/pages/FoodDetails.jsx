@@ -9,6 +9,10 @@ import {
 } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function FoodDetails({ addToCart }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -21,7 +25,7 @@ function FoodDetails({ addToCart }) {
     const fetchFood = async () => {
       try {
         const response = await axios.get(
-          `https://food-delivery-cnsn.onrender.com/api/food/${id}`
+          `${API_URL}/api/food/${id}`
         );
 
         setFood(response.data);
@@ -55,10 +59,13 @@ function FoodDetails({ addToCart }) {
         price: food.price,
         rating: food.rating,
         image: food.image,
+        category: food.category,
       });
     }
 
-    alert(`${food.name} × ${quantity} added to cart 🛒`);
+    alert(
+      `${food.name} × ${quantity} added to cart 🛒`
+    );
   };
 
   if (loading) {

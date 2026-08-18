@@ -2,6 +2,10 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function Register() {
   const navigate = useNavigate();
 
@@ -33,19 +37,22 @@ function Register() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://food-delivery-cnsn.onrender.com/api/auth/register",
+        `${API_URL}/api/auth/register`,
         {
-          name: form.name,
-          email: form.email,
+          name: form.name.trim(),
+          email: form.email.trim().toLowerCase(),
           password: form.password,
         }
       );
 
-      alert(response.data.message || "Account created successfully! 🎉");
+      alert(
+        response.data.message ||
+          "Account created successfully! 🎉"
+      );
 
       navigate("/login");
     } catch (error) {
-      console.error(error);
+      console.error("Registration error:", error);
 
       alert(
         error.response?.data?.message ||
@@ -62,7 +69,10 @@ function Register() {
         <div className="auth-logo">🍔</div>
 
         <h1>Create Account</h1>
-        <p>Join Foodie and order your favourite food.</p>
+
+        <p>
+          Join Foodie and order your favourite food.
+        </p>
 
         <form onSubmit={handleRegister}>
           <label>Full Name</label>
@@ -114,7 +124,9 @@ function Register() {
             type="submit"
             disabled={loading}
           >
-            {loading ? "Creating Account..." : "Create Account"}
+            {loading
+              ? "Creating Account..."
+              : "Create Account"}
           </button>
         </form>
 

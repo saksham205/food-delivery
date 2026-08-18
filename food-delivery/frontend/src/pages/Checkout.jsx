@@ -8,6 +8,10 @@ import {
   ArrowLeft,
 } from "lucide-react";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function Checkout({ cart, clearCart }) {
   const navigate = useNavigate();
 
@@ -19,7 +23,9 @@ function Checkout({ cart, clearCart }) {
     pincode: "",
   });
 
-  const [paymentMethod, setPaymentMethod] = useState("COD");
+  const [paymentMethod, setPaymentMethod] =
+    useState("COD");
+
   const [loading, setLoading] = useState(false);
 
   const subtotal = cart.reduce(
@@ -48,9 +54,8 @@ function Checkout({ cart, clearCart }) {
     }
 
     const token = localStorage.getItem("token");
-    const user = localStorage.getItem("user");
 
-    if (!token || !user) {
+    if (!token) {
       alert("Please login first.");
       navigate("/login");
       return;
@@ -68,11 +73,11 @@ function Checkout({ cart, clearCart }) {
         })),
 
         customer: {
-          name: form.name,
-          phone: form.phone,
-          address: form.address,
-          city: form.city,
-          pincode: form.pincode,
+          name: form.name.trim(),
+          phone: form.phone.trim(),
+          address: form.address.trim(),
+          city: form.city.trim(),
+          pincode: form.pincode.trim(),
         },
 
         subtotal,
@@ -82,7 +87,7 @@ function Checkout({ cart, clearCart }) {
       };
 
       const response = await axios.post(
-        "https://food-delivery-cnsn.onrender.com/api/orders",
+        `${API_URL}/api/orders`,
         orderData,
         {
           headers: {
@@ -99,7 +104,10 @@ function Checkout({ cart, clearCart }) {
       clearCart();
       navigate("/my-orders");
     } catch (error) {
-      console.error("Order Error:", error);
+      console.error(
+        "Order Error:",
+        error
+      );
 
       alert(
         error.response?.data?.message ||
@@ -259,7 +267,10 @@ function Checkout({ cart, clearCart }) {
               />
 
               <div>
-                <strong>Cash on Delivery</strong>
+                <strong>
+                  Cash on Delivery
+                </strong>
+
                 <span>
                   Pay when your order arrives
                 </span>
@@ -289,6 +300,7 @@ function Checkout({ cart, clearCart }) {
                 <strong>
                   UPI / Online Payment
                 </strong>
+
                 <span>
                   Pay securely online
                 </span>

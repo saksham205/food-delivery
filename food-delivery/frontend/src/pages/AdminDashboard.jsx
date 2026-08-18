@@ -7,6 +7,10 @@ import {
 } from "lucide-react";
 import AdminSidebar from "../components/AdminSidebar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function AdminDashboard() {
   const [stats, setStats] = useState({
     totalOrders: 0,
@@ -24,8 +28,13 @@ function AdminDashboard() {
       try {
         const token = localStorage.getItem("token");
 
+        if (!token) {
+          alert("Please login first.");
+          return;
+        }
+
         const response = await axios.get(
-          "https://food-delivery-cnsn.onrender.com/api/admin/stats",
+          `${API_URL}/api/admin/stats`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -52,7 +61,9 @@ function AdminDashboard() {
   const maxSales =
     stats.salesChart.length > 0
       ? Math.max(
-          ...stats.salesChart.map((item) => item.sales)
+          ...stats.salesChart.map(
+            (item) => item.sales
+          )
         )
       : 0;
 
@@ -124,7 +135,9 @@ function AdminDashboard() {
               Pending Orders
             </span>
 
-            <strong>{stats.pendingOrders}</strong>
+            <strong>
+              {stats.pendingOrders}
+            </strong>
 
             <small>Need attention</small>
           </div>
@@ -160,7 +173,8 @@ function AdminDashboard() {
                     </div>
 
                     <div className="order-items-count">
-                      {order.items?.length || 0} item(s)
+                      {order.items?.length || 0}{" "}
+                      item(s)
                     </div>
 
                     <div>

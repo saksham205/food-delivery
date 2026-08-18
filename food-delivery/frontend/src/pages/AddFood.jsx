@@ -2,6 +2,10 @@ import { useState } from "react";
 import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function AddFood() {
   const [form, setForm] = useState({
     name: "",
@@ -28,7 +32,7 @@ function AddFood() {
       setLoading(true);
 
       const response = await axios.post(
-        "https://food-delivery-cnsn.onrender.com/api/food",
+        `${API_URL}/api/food`,
         {
           name: form.name,
           description: form.description,
@@ -50,7 +54,7 @@ function AddFood() {
         image: "",
       });
     } catch (error) {
-      console.error(error);
+      console.error("Add food error:", error);
 
       alert(
         error.response?.data?.message ||
@@ -123,22 +127,37 @@ function AddFood() {
                 onChange={handleChange}
               />
 
-             <label>Category</label>
+              <label>Category</label>
 
-<select
-  name="category"
-  value={form.category}
-  onChange={handleChange}
-  required
->
-  <option value="">Select Category</option>
-  <option value="Pizza">Pizza 🍕</option>
-  <option value="Burger">Burger 🍔</option>
-  <option value="Noodles">Noodles 🍜</option>
-  <option value="Chicken">Chicken 🍗</option>
-  <option value="Salad">Salad 🥗</option>
-  <option value="Desserts">Desserts 🍰</option>
-</select>
+              <select
+                name="category"
+                value={form.category}
+                onChange={handleChange}
+                required
+              >
+                <option value="">
+                  Select Category
+                </option>
+                <option value="Pizza">
+                  Pizza 🍕
+                </option>
+                <option value="Burger">
+                  Burger 🍔
+                </option>
+                <option value="Noodles">
+                  Noodles 🍜
+                </option>
+                <option value="Chicken">
+                  Chicken 🍗
+                </option>
+                <option value="Salad">
+                  Salad 🥗
+                </option>
+                <option value="Desserts">
+                  Desserts 🍰
+                </option>
+              </select>
+
               <label>Image URL</label>
 
               <input
@@ -149,8 +168,13 @@ function AddFood() {
                 required
               />
 
-              <button type="submit" disabled={loading}>
-                {loading ? "Adding..." : "Add Food"}
+              <button
+                type="submit"
+                disabled={loading}
+              >
+                {loading
+                  ? "Adding..."
+                  : "Add Food"}
               </button>
             </form>
           </div>

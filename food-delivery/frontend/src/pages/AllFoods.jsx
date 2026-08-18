@@ -2,6 +2,9 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import FoodCard from "../components/FoodCard";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
 
 function AllFoods({ addToCart }) {
   const [foods, setFoods] = useState([]);
@@ -14,12 +17,15 @@ function AllFoods({ addToCart }) {
     const fetchFoods = async () => {
       try {
         const response = await axios.get(
-          "https://food-delivery-cnsn.onrender.com/api/food"
+          `${API_URL}/api/food`
         );
 
         setFoods(response.data);
       } catch (error) {
-        console.error("Food fetch error:", error);
+        console.error(
+          "Food fetch error:",
+          error
+        );
       } finally {
         setLoading(false);
       }
@@ -40,15 +46,22 @@ function AllFoods({ addToCart }) {
   const filteredFoods = foods.filter((food) => {
     const matchesSearch = food.name
       .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+      .includes(
+        searchTerm.toLowerCase()
+      );
 
     const matchesCategory =
       !category ||
       food.category
         ?.toLowerCase()
-        .includes(category.toLowerCase());
+        .includes(
+          category.toLowerCase()
+        );
 
-    return matchesSearch && matchesCategory;
+    return (
+      matchesSearch &&
+      matchesCategory
+    );
   });
 
   return (
@@ -77,10 +90,15 @@ function AllFoods({ addToCart }) {
               setCategory(e.target.value)
             }
           >
-            <option value="">All Categories</option>
+            <option value="">
+              All Categories
+            </option>
 
             {categories.map((item) => (
-              <option key={item} value={item}>
+              <option
+                key={item}
+                value={item}
+              >
                 {item}
               </option>
             ))}
@@ -104,7 +122,8 @@ function AllFoods({ addToCart }) {
                 food={{
                   id: food._id,
                   name: food.name,
-                  description: food.description,
+                  description:
+                    food.description,
                   price: food.price,
                   rating: food.rating,
                   image: food.image,

@@ -3,6 +3,10 @@ import axios from "axios";
 import AdminSidebar from "../components/AdminSidebar";
 import { useNavigate } from "react-router-dom";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function ManageFood() {
   const navigate = useNavigate();
 
@@ -12,13 +16,20 @@ function ManageFood() {
   const fetchFoods = async () => {
     try {
       const response = await axios.get(
-        "https://food-delivery-cnsn.onrender.com/api/food"
+        `${API_URL}/api/food`
       );
 
       setFoods(response.data);
     } catch (error) {
-      console.error(error);
-      alert("Failed to load food items.");
+      console.error(
+        "Fetch food error:",
+        error
+      );
+
+      alert(
+        error.response?.data?.message ||
+          "Failed to load food items."
+      );
     } finally {
       setLoading(false);
     }
@@ -37,16 +48,21 @@ function ManageFood() {
 
     try {
       const response = await axios.delete(
-        `https://food-delivery-cnsn.onrender.com/api/food/${id}`
+        `${API_URL}/api/food/${id}`
       );
 
       alert(response.data.message);
 
       setFoods((prevFoods) =>
-        prevFoods.filter((food) => food._id !== id)
+        prevFoods.filter(
+          (food) => food._id !== id
+        )
       );
     } catch (error) {
-      console.error(error);
+      console.error(
+        "Delete food error:",
+        error
+      );
 
       alert(
         error.response?.data?.message ||

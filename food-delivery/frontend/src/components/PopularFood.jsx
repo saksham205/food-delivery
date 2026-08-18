@@ -3,7 +3,15 @@ import axios from "axios";
 import FoodCard from "./FoodCard";
 import { useNavigate } from "react-router-dom";
 
-function PopularFood({ addToCart, searchTerm, category }) {
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
+function PopularFood({
+  addToCart,
+  searchTerm,
+  category,
+}) {
   const navigate = useNavigate();
 
   const [foods, setFoods] = useState([]);
@@ -13,12 +21,15 @@ function PopularFood({ addToCart, searchTerm, category }) {
     const fetchFoods = async () => {
       try {
         const response = await axios.get(
-          "https://food-delivery-cnsn.onrender.com/api/food"
+          `${API_URL}/api/food`
         );
 
         setFoods(response.data);
       } catch (error) {
-        console.error("Food fetch error:", error);
+        console.error(
+          "Food fetch error:",
+          error
+        );
       } finally {
         setLoading(false);
       }
@@ -30,15 +41,22 @@ function PopularFood({ addToCart, searchTerm, category }) {
   const filteredFoods = foods.filter((food) => {
     const matchesSearch = food.name
       .toLowerCase()
-      .includes((searchTerm || "").toLowerCase());
+      .includes(
+        (searchTerm || "").toLowerCase()
+      );
 
     const matchesCategory =
       !category ||
       food.category
         ?.toLowerCase()
-        .includes(category.toLowerCase());
+        .includes(
+          category.toLowerCase()
+        );
 
-    return matchesSearch && matchesCategory;
+    return (
+      matchesSearch &&
+      matchesCategory
+    );
   });
 
   return (
@@ -51,7 +69,9 @@ function PopularFood({ addToCart, searchTerm, category }) {
 
         <button
           className="view-all"
-          onClick={() => navigate("/all-foods")}
+          onClick={() =>
+            navigate("/all-foods")
+          }
         >
           View All →
         </button>
@@ -76,7 +96,8 @@ function PopularFood({ addToCart, searchTerm, category }) {
               food={{
                 id: food._id,
                 name: food.name,
-                description: food.description,
+                description:
+                  food.description,
                 price: food.price,
                 rating: food.rating,
                 image: food.image,

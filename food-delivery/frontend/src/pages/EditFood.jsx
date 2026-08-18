@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import AdminSidebar from "../components/AdminSidebar";
 
+const API_URL =
+  import.meta.env.VITE_API_URL ||
+  "http://localhost:5001";
+
 function EditFood() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -23,7 +27,7 @@ function EditFood() {
     const fetchFood = async () => {
       try {
         const response = await axios.get(
-          `https://food-delivery-cnsn.onrender.com/api/food/${id}`
+          `${API_URL}/api/food/${id}`
         );
 
         const food = response.data;
@@ -37,8 +41,12 @@ function EditFood() {
           image: food.image || "",
         });
       } catch (error) {
-        console.error(error);
-        alert("Failed to load food.");
+        console.error("Fetch food error:", error);
+
+        alert(
+          error.response?.data?.message ||
+            "Failed to load food."
+        );
       } finally {
         setLoading(false);
       }
@@ -61,7 +69,7 @@ function EditFood() {
       setSaving(true);
 
       await axios.put(
-        `https://food-delivery-cnsn.onrender.com/api/food/${id}`,
+        `${API_URL}/api/food/${id}`,
         {
           name: form.name,
           description: form.description,
@@ -76,7 +84,7 @@ function EditFood() {
 
       navigate("/manage-food");
     } catch (error) {
-      console.error(error);
+      console.error("Update food error:", error);
 
       alert(
         error.response?.data?.message ||
@@ -183,8 +191,13 @@ function EditFood() {
                 required
               />
 
-              <button type="submit" disabled={saving}>
-                {saving ? "Updating..." : "Update Food"}
+              <button
+                type="submit"
+                disabled={saving}
+              >
+                {saving
+                  ? "Updating..."
+                  : "Update Food"}
               </button>
             </form>
           </div>
