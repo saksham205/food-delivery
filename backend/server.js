@@ -25,6 +25,12 @@ app.get("/", (req, res) => {
     message: "Food Delivery API is running 🚀",
   });
 });
+app.get("/api/debug-db", (req, res) => {
+  res.json({
+    database: mongoose.connection.name,
+    host: mongoose.connection.host,
+  });
+});
 
 mongoose
   .connect(process.env.MONGO_URI)
