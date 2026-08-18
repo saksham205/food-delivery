@@ -26,7 +26,7 @@ function Login() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5001/api/auth/login",
+        "https://food-delivery-cnsn.onrender.com/api/auth/login",
         {
           email: form.email.trim(),
           password: form.password,

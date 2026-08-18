@@ -23,7 +23,7 @@ function EditFood() {
     const fetchFood = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5001/api/food/${id}`
+          `https://food-delivery-cnsn.onrender.com/api/food/${id}`
         );
 
         const food = response.data;
@@ -61,7 +61,7 @@ function EditFood() {
       setSaving(true);
 
       await axios.put(
-        `http://localhost:5001/api/food/${id}`,
+        `https://food-delivery-cnsn.onrender.com/api/food/${id}`,
         {
           name: form.name,
           description: form.description,

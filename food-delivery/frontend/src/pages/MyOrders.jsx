@@ -35,7 +35,7 @@ function MyOrders() {
         }
 
         const response = await axios.get(
-          "http://localhost:5001/api/orders/my-orders",
+          "https://food-delivery-cnsn.onrender.com/api/orders/my-orders",
           {
             headers: {
               Authorization: `Bearer ${token}`,

@@ -25,7 +25,7 @@ function AdminDashboard() {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          "http://localhost:5001/api/admin/stats",
+          "https://food-delivery-cnsn.onrender.com/api/admin/stats",
           {
             headers: {
               Authorization: `Bearer ${token}`,

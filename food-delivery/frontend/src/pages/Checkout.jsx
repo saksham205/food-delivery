@@ -82,7 +82,7 @@ function Checkout({ cart, clearCart }) {
       };
 
       const response = await axios.post(
-        "http://localhost:5001/api/orders",
+        "https://food-delivery-cnsn.onrender.com/api/orders",
         orderData,
         {
           headers: {

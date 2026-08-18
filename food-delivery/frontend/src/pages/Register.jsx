@@ -33,7 +33,7 @@ function Register() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5001/api/auth/register",
+        "https://food-delivery-cnsn.onrender.com/api/auth/register",
         {
           name: form.name,
           email: form.email,

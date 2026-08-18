@@ -12,7 +12,7 @@ function ManageFood() {
   const fetchFoods = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:5001/api/food"
+        "https://food-delivery-cnsn.onrender.com/api/food"
       );
 
       setFoods(response.data);
@@ -37,7 +37,7 @@ function ManageFood() {
 
     try {
       const response = await axios.delete(
-        `http://localhost:5001/api/food/${id}`
+        `https://food-delivery-cnsn.onrender.com/api/food/${id}`
       );
 
       alert(response.data.message);

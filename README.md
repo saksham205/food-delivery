@@ -122,7 +122,7 @@ food/
 cd backend
 npm install
 npm run dev
-Backend runs on: http://localhost:5001
+Backend runs on: https://food-delivery-cnsn.onrender.com
 
 ## ⚙️ Frontend Setup
 Open another terminal:

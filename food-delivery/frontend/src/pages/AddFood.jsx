@@ -28,7 +28,7 @@ function AddFood() {
       setLoading(true);
 
       const response = await axios.post(
-        "http://localhost:5001/api/food",
+        "https://food-delivery-cnsn.onrender.com/api/food",
         {
           name: form.name,
           description: form.description,
