@@ -2953,3 +2953,132 @@ body {
     padding: 18px;
   }
 }
+/* =========================
+   MOBILE HOME PAGE FIX
+========================= */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+@media (max-width: 600px) {
+
+  /* NAVBAR */
+  .navbar {
+    height: auto;
+    padding: 12px 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .logo {
+    font-size: 24px;
+  }
+
+  .nav-links {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .nav-links a {
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  .nav-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  /* HERO */
+  .hero {
+    min-height: auto;
+    padding: 45px 20px 50px;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .hero-content {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .small-title {
+    font-size: 14px;
+  }
+
+  .hero h1 {
+    font-size: 38px;
+    line-height: 1.15;
+    word-break: normal;
+  }
+
+  .hero p {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .search-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .search-box input {
+    min-width: 0;
+    width: 100%;
+  }
+
+  .hero-image {
+    font-size: 100px;
+    margin-top: 25px;
+  }
+
+  /* CATEGORIES */
+  .categories {
+    padding: 35px 20px;
+  }
+
+  .categories h2 {
+    font-size: 28px;
+  }
+
+  .category-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .category-card {
+    padding: 20px 10px;
+  }
+
+  /* POPULAR FOOD */
+  .popular-food {
+    padding: 40px 20px;
+  }
+
+  .section-heading {
+    gap: 10px;
+  }
+
+  .section-heading h2 {
+    font-size: 28px;
+  }
+
+  .food-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .food-card {
+    width: 100%;
+  }
+}
